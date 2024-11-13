@@ -1,0 +1,26 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error
+
+# Load dataset
+data = pd.read_csv('salary_positions.csv')
+X = data[['level']]
+y = data['salary']
+
+# Simple Linear Regression
+model_linear = LinearRegression()
+model_linear.fit(X, y)
+linear_predictions = model_linear.predict(X)
+linear_mse = mean_squared_error(y, linear_predictions)
+
+# Polynomial Regression
+poly = PolynomialFeatures(degree=4)
+X_poly = poly.fit_transform(X)
+model_poly = LinearRegression()
+model_poly.fit(X_poly, y)
+poly_predictions = model_poly.predict(X_poly)
+poly_mse = mean_squared_error(y, poly_predictions)
+
+# Prediction for levels 11 and 12
+print(f"Linear MSE: {linear_mse}, Polynomial MSE: {poly_mse}")
